@@ -10,6 +10,9 @@ name: Update Container Image
 on:
   workflow_dispatch:
     inputs:
+      message:
+        required: true
+        description: A message describing why this workflow is being invoked
       image:
         required: true
         description: The new image, e.g quay.io/evanshortiss/gitops-and-actions:sha-8d4deb9
@@ -41,6 +44,7 @@ jobs:
       uses: peter-evans/create-pull-request@v5
       id: cpr
       with:
+        title: ${{github.event.inputs.message}}
         commit-message: update backend image tag to ${{github.event.inputs.image}}
 
     - name: Check outputs
