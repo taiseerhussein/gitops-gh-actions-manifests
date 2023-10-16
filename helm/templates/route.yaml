@@ -1,0 +1,22 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: nodeapp
+  labels:
+    app: nodeapp
+    app.kubernetes.io/component: nodeapp
+    app.kubernetes.io/instance: nodeapp
+    app.kubernetes.io/name: nodeapp
+    app.kubernetes.io/part-of: gitops-demo
+    app.openshift.io/runtime-version: latest
+spec:
+  to:
+    kind: Service
+    name: nodeapp
+    weight: 100
+  port:
+    targetPort: 8080-tcp
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

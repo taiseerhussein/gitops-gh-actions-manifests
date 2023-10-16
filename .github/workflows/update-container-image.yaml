@@ -1,0 +1,50 @@
+name: Update Container Image
+
+# This workflow is triggered by the backend build in the redhat-developer-demos/rps-game-manifests repo.
+# To manually trigger the action, you can use curl with a PAT:
+# curl -X POST \
+# -H "Authorization: Bearer $PAT" \
+# -H "Accept: application/vnd.github.v3+json" \
+# https://api.github.com/repos/redhat-developer-demos/rps-game-manifests/actions/workflows/update-backend-image.yaml/dispatches \
+# -d '{"ref":"main", "inputs": { "image": "foo" } }'
+on:
+  workflow_dispatch:
+    inputs:
+      image:
+        required: true
+        description: The new image, e.g quay.io/evanshortiss/gitops-and-actions:sha-8d4deb9
+
+jobs:
+  update-image-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the source code in the repository
+    - uses: actions/checkout@v3
+
+    - name: Print new image value
+      run: echo "New image is ${{github.event.inputs.image}}"
+
+    - name: Install yq
+      run: |
+        sudo curl -L https://github.com/mikefarah/yq/releases/download/v4.35.2/yq_linux_amd64 -o /usr/local/bin/yq
+        sudo chmod +x /usr/local/bin/yq
+
+    # Update both values files (production and non-production resources)
+    - name: Update values.yaml
+      run: 'yq -i e ".backend.image = \"${{ github.event.inputs.image }}\"" helm/values.yaml'
+
+    # Create a PR with the new values files. This requires actions to
+    # be allowed to open a PR in the repository:
+    # https://github.com/marketplace/actions/create-pull-request#workflow-permissions
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v5
+      id: cpr
+      with:
+        commit-message: update backend image tag to ${{github.event.inputs.image}}
+
+    - name: Check outputs
+      if: ${{ steps.cpr.outputs.pull-request-number }}
+      run: |
+        echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+        echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
