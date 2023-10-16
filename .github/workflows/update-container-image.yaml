@@ -32,7 +32,7 @@ jobs:
 
     # Update both values files (production and non-production resources)
     - name: Update values.yaml
-      run: 'yq -i e ".backend.image = \"${{ github.event.inputs.image }}\"" helm/values.yaml'
+      run: 'yq -i e ".nodeapp.image = \"${{ github.event.inputs.image }}\"" helm/values.yaml'
 
     # Create a PR with the new values files. This requires actions to
     # be allowed to open a PR in the repository:

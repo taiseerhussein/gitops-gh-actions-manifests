@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gh-actions-gitops
+spec:
+  destination:
+    name: ''
+    namespace: gh-actions-gitops
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: helm
+    repoURL: 'https://github.com/evanshortiss/gitops-gh-actions-manifests'
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yaml
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
