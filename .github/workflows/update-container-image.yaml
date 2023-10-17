@@ -5,8 +5,8 @@ name: Update Container Image
 # curl -X POST \
 # -H "Authorization: Bearer $PAT" \
 # -H "Accept: application/vnd.github.v3+json" \
-# https://api.github.com/repos/redhat-developer-demos/rps-game-manifests/actions/workflows/update-backend-image.yaml/dispatches \
-# -d '{"ref":"main", "inputs": { "image": "foo" } }'
+# https://api.github.com/repos/evanshortiss/gitops-gh-actions-manifests/actions/workflows/update-container-image.yaml/dispatches \
+# -d '{"ref":"main", "inputs": { "image": "quay.io/orgoruser/image:tag", "message": "some changes" } }'
 on:
   workflow_dispatch:
     inputs:
