@@ -13,6 +13,9 @@ on:
       message:
         required: true
         description: A message describing why this workflow is being invoked
+      sha:
+        required: true
+        description: The short hash of the commit the invoked this workflow
       image:
         required: true
         description: The new image, e.g quay.io/evanshortiss/gitops-and-actions:sha-8d4deb9
@@ -45,6 +48,7 @@ jobs:
       id: cpr
       with:
         title: ${{github.event.inputs.message}}
+        branch: update-image-${{github.event.inputs.sha}}
         commit-message: update backend image tag to ${{github.event.inputs.image}}
 
     - name: Check outputs
