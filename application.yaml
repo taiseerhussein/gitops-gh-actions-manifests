@@ -9,7 +9,8 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     path: helm
-    repoURL: 'https://github.com/evanshortiss/gitops-gh-actions-manifests'
+    # Replace "YOUR_ORG_OR_USERNAME" with the location of your manifest repo fork
+    repoURL: 'https://github.com/YOUR_ORG_OR_USERNAME/gitops-gh-actions-manifests'
     targetRevision: HEAD
     helm:
       valueFiles:
