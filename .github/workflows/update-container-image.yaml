@@ -5,7 +5,7 @@ name: Update Container Image
 # curl -X POST \
 # -H "Authorization: Bearer $PAT" \
 # -H "Accept: application/vnd.github.v3+json" \
-# https://api.github.com/repos/evanshortiss/gitops-gh-actions-manifests/actions/workflows/update-container-image.yaml/dispatches \
+# https://api.github.com/repos/taiseerhussein/gitops-gh-actions-manifests/actions/workflows/update-container-image.yaml/dispatches \
 # -d '{"ref":"main", "inputs": { "image": "quay.io/orgoruser/image:tag", "message": "some changes" } }'
 on:
   workflow_dispatch:
@@ -18,7 +18,7 @@ on:
         description: The short hash of the commit the invoked this workflow
       image:
         required: true
-        description: The new image, e.g quay.io/evanshortiss/gitops-and-actions:sha-8d4deb9
+        description: The new image, e.g quay.io/tkhussein/gitops-and-actions:sha-8d4deb9
 
 jobs:
   update-image-tag:
